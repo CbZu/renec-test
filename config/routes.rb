@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   post '/login', to: "sessions#create"
   delete '/logout', to: "sessions#destroy"
 
+  get '/videos-sharing', to: "videos_sharing#get"
+  post '/videos-sharing', to: "videos_sharing#share"
+
 end

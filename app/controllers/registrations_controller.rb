@@ -1,5 +1,10 @@
 class RegistrationsController < ApplicationController
   def create
+    unless user_params[:username].present? && user_params[:password].present? && user_params[:email].present?
+      render json: { error: 'Username, password, and email are required' }, status: :unprocessable_entity
+      return
+    end
+
     user = User.new(user_params)
     begin
       if user.save
@@ -15,6 +20,6 @@ class RegistrationsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :email)
   end
 end
