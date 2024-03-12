@@ -1,25 +1,20 @@
 require 'google/apis/youtube_v3'
 
 class VideosSharingController < ApplicationController
-
   def get
     videos = Video.includes(:user).all.map do |video|
       {
         id: video.id,
         title: video.title,
         description: video.description,
-        shared_by: video.user.username
+        shared_by: video.user.email
       }
     end
     render json: videos, status: :ok
   end
 
   def share
-    youtube = Google::Apis::YoutubeV3::YouTubeService.new
-    youtube.key = Rails.application.config.youtube_key
-
-    video_id = extract_video_id(video_params[:url])
-    video_info = youtube.list_videos('snippet', id: video_id).items.first
+    video_info = get_youtube_video_info
 
     video = Video.new(video_params)
     video.user = current_user
@@ -45,5 +40,13 @@ class VideosSharingController < ApplicationController
     else
       return nil
     end
+  end
+
+  def get_youtube_video_info
+    youtube = Google::Apis::YoutubeV3::YouTubeService.new
+    youtube.key = Rails.application.config.youtube_key
+
+    video_id = extract_video_id(video_params[:url])
+    return youtube.list_videos('snippet', id: video_id).items.first
   end
 end
