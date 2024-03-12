@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   get '/videos-sharing', to: "videos_sharing#get"
   post '/videos-sharing', to: "videos_sharing#share"
 
+  mount ActionCable.server => '/cable'
 end
