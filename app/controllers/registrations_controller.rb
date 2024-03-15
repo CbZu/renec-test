@@ -1,25 +1,25 @@
 class RegistrationsController < ApplicationController
   def create
-    unless user_params[:username].present? && user_params[:password].present? && user_params[:email].present?
-      render json: { error: 'Username, password, and email are required' }, status: :unprocessable_entity
+    unless user_params[:email].present? && user_params[:password].present?
+      render json: { error: 'email and password are required' }, status: :unprocessable_entity
       return
     end
 
     user = User.new(user_params)
     begin
       if user.save
-        render json: { id: user.id, username: user.username }, status: :created
+        render json: { id: user.id, email: user.email }, status: :created
       else
         render json: user.errors, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordNotUnique => e
-      render json: { error: "Username is already in use" }, status: :unprocessable_entity
+      render json: { error: "email is already in use" }, status: :unprocessable_entity
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :email)
+    params.permit(:email, :password)
   end
 end
