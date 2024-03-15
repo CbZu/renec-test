@@ -17,16 +17,19 @@ class VideosSharingController < ApplicationController
   end
 
   def create
-    video_info = get_youtube_video_info
+    begin
+      video_info = get_youtube_video_info
 
-    video = Video.new(video_params)
-    video.user = current_user
-    video.title = video_info.snippet.title
-    video.description = video_info.snippet.description
-    if video.save
-      ActionCable.server.broadcast('videos_sharing_channel', { video: video.title, email: video.user.email })
-      head :ok
-    else
+      video = Video.new(video_params.merge(
+        user: current_user,
+        title: video_info.snippet.title,
+        description: video_info.snippet.description
+      ))
+      if video.save
+        ActionCable.server.broadcast('videos_sharing_channel', { video: video.title, email: video.user.email })
+        head :ok
+      end
+    rescue => e
       render json: { error: "Can not share video" }, status: :unprocessable_entity
     end
   end
@@ -34,7 +37,7 @@ class VideosSharingController < ApplicationController
   private
 
   def video_params
-    params.require(:video).permit(:url)
+    params.permit(:url)
   end
 
   def extract_video_id(url)

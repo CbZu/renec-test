@@ -4,12 +4,17 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate!
-    render json: { error_message: 'unauthorized' }, status: :unauthorized if current_user.nil?
+    render json: { error: 'unauthorized' }, status: :unauthorized if current_user.nil?
   end
 
   def current_user
-    @current_user ||= User.find(JsonWebTokenService.decode(request.headers['Authorization'])[:user_id])
-    return @current_user
+    return if request.headers['Authorization'].nil?
+    begin
+      @current_user ||= User.find(JsonWebTokenService.decode(request.headers['Authorization'])[:user_id])
+      return @current_user
+    rescue JWT::DecodeError => e
+      render json: { error: 'Invalid token or token is expired' }, status: :unauthorized
+    end
   end
 
 end
