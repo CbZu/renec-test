@@ -1,19 +1,22 @@
 require 'google/apis/youtube_v3'
 
 class VideosSharingController < ApplicationController
+  before_action :authenticate!, only: [:create]
+
   def get
     videos = Video.includes(:user).all.map do |video|
       {
         id: video.id,
         title: video.title,
         description: video.description,
-        shared_by: video.user.email
+        sharedBy: video.user.email,
+        url: video.url
       }
     end
     render json: videos, status: :ok
   end
 
-  def share
+  def create
     video_info = get_youtube_video_info
 
     video = Video.new(video_params)
@@ -21,8 +24,10 @@ class VideosSharingController < ApplicationController
     video.title = video_info.snippet.title
     video.description = video_info.snippet.description
     if video.save
-      ActionCable.server.broadcast('videos_sharing_channel', { video: video.title, user: video.user.username })
+      ActionCable.server.broadcast('videos_sharing_channel', { video: video.title, email: video.user.email })
       head :ok
+    else
+      render json: { error: "Can not share video" }, status: :unprocessable_entity
     end
   end
 
