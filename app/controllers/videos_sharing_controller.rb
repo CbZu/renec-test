@@ -26,7 +26,7 @@ class VideosSharingController < ApplicationController
         description: video_info.snippet.description
       ))
       if video.save
-        ActionCable.server.broadcast('videos_sharing_channel', { video: video.title, email: video.user.email })
+        ActionCable.server.broadcast(VIDEOS_SHARING_CHANNEL, { video: video.title, email: video.user.email })
         head :ok
       end
     rescue => e
@@ -50,7 +50,7 @@ class VideosSharingController < ApplicationController
 
   def get_youtube_video_info
     youtube = Google::Apis::YoutubeV3::YouTubeService.new
-    youtube.key = Rails.application.config.youtube_key
+    youtube.key = Rails.application.secrets.youtube_key
 
     video_id = extract_video_id(video_params[:url])
     youtube.list_videos('snippet', id: video_id).items.first

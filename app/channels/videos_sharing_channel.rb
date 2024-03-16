@@ -1,5 +1,5 @@
 class VideosSharingChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'videos_sharing_channel'
+    stream_from VIDEOS_SHARING_CHANNEL
   end
 end
