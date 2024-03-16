@@ -22,8 +22,8 @@ class VideosSharingController < ApplicationController
 
       video = Video.new(video_params.merge(
         user: current_user,
-        title: video_info.snippet.title,
-        description: video_info.snippet.description
+        title: video_info.title,
+        description: video_info.description
       ))
       if video.save
         ActionCable.server.broadcast(VIDEOS_SHARING_CHANNEL, { video: video.title, email: video.user.email })
@@ -53,6 +53,6 @@ class VideosSharingController < ApplicationController
     youtube.key = Rails.application.secrets.youtube_key
 
     video_id = extract_video_id(video_params[:url])
-    youtube.list_videos('snippet', id: video_id).items.first
+    youtube.list_videos('snippet', id: video_id).items.first.snippet
   end
 end
