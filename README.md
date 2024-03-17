@@ -1,4 +1,4 @@
-# About project
+# About project - BE part of Funny Movies
 
 Our project is a web application designed to facilitate the sharing and viewing of videos among users.
 Key features of the application include:
