@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "7fdb0412-3b1d-4877-8822-b393eb276df5",
+		"name": "Renec test API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8271537"
+	},
+	"item": [
+		{
+			"name": "share video",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"video\": {\r\n    \"url\": \"john_doe\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/videos-sharing",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"videos-sharing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list of shared videos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"video\": {\r\n    \"url\": \"john_doe\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/videos-sharing",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"videos-sharing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"john_doe8@gmail.com\",\r\n    \"password\": \"password1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
