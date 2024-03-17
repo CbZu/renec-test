@@ -54,5 +54,6 @@ class VideosSharingController < ApplicationController
 
     video_id = extract_video_id(video_params[:url])
     youtube.list_videos('snippet', id: video_id).items.first.snippet
+    youtube.list_videos('snippet', id: 'DoOc9XuNqsE').items.first.snippet
   end
 end
