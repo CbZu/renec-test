@@ -29,7 +29,7 @@ class VideosSharingController < ApplicationController
         ActionCable.server.broadcast(VIDEOS_SHARING_CHANNEL, { video: video.title, email: video.user.email })
         head :ok
       end
-    rescue => e
+    rescue
       render json: { error: "Can not share video" }, status: :unprocessable_entity
     end
   end
