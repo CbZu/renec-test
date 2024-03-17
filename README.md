@@ -13,6 +13,7 @@ Key features of the application include:
   - **RubyGems version**: 3.5.6
   - **Rack version**: 2.2.8.1
   - **Database adapter**: postgresql
+  - **Redis server**: 6.0.16
 
 # Installation
 
